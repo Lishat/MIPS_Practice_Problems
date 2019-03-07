@@ -1,12 +1,38 @@
 .data
-	a: .word 15
-	b: .word 25
-.text
+prompt1: .asciiz "\n\n Enter 1st integer"
+prompt2: .asciiz "Enter 2nd integer"
+result: .asciiz "The result is:"
+
+              .text
 main:
-	lw $t0, a($0)
-	lw $t1, b($0)
-	add $t0, $t0, $t1
-	
-	li $v0, 1
-	add $a0, $zero, $t0
-	syscall
+    #t0-to hold first integer
+    #t1-to hold second integer
+    #t2- used to hold the sum of t$1 and t$2
+        #first number
+        li $v0, 4 #syscall to print string
+        la $a0, prompt1  #address of string to print
+        syscall
+#
+        li $v0, 5 #syscall to read an integer
+        syscall
+        move $t0, $v0  #move the number to read into $t0
+    #second number
+    li $v0, 4
+    la $a0, prompt2
+    syscall
+#
+    li $v0,5        
+    syscall
+    move $t1,$v0
+#
+    #print out sum of $t2
+    li $v0, 4
+    la $a0, result
+    syscall
+#
+    add $a0, $t1, $t0 #compute the sum
+    li $v0, 1
+    syscall
+#
+    li $v0, 10 #Exit from window
+    syscall
